@@ -274,7 +274,7 @@ button:active {
       Mike
     </option>
 
-    <option value="9126436340">
+    <option value="5712765400">
       Marcus
     </option>
 
@@ -426,23 +426,25 @@ function formatDate(date, time) {
 // ======================
 function plusHour(date, time) {
 
-  const d =
+  const start =
     new Date(`${date}T${time}`);
 
-  d.setHours(
-    d.getHours() + 1
-  );
+  const end =
+    new Date(
+      start.getTime() +
+      (60 * 60 * 1000)
+    );
 
   const pad = n =>
     String(n).padStart(2, "0");
 
   return (
-    d.getFullYear() +
-    pad(d.getMonth() + 1) +
-    pad(d.getDate()) +
+    end.getFullYear() +
+    pad(end.getMonth() + 1) +
+    pad(end.getDate()) +
     "T" +
-    pad(d.getHours()) +
-    pad(d.getMinutes()) +
+    pad(end.getHours()) +
+    pad(end.getMinutes()) +
     "00"
   );
 }
