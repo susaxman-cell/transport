@@ -16,39 +16,6 @@
 
 <title>Mike's Transport Service</title>
 
-<!-- PWA -->
-<link rel="manifest" href="dispatcher-manifest.json">
-
-<meta
-  name="theme-color"
-  content="#111111"
->
-
-<meta
-  name="apple-mobile-web-app-capable"
-  content="yes"
->
-
-<meta
-  name="mobile-web-app-capable"
-  content="yes"
->
-
-<meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="black"
->
-
-<meta
-  name="apple-mobile-web-app-title"
-  content="Mike Dispatch"
->
-
-<link
-  rel="apple-touch-icon"
-  href="dispatcher-192.png"
->
-
 <style>
 
 html {
@@ -61,7 +28,7 @@ html {
 
 body {
   margin: 0;
-  padding: 14px;
+  padding: 12px;
   background: #f5f5f5;
   font-family: Arial, sans-serif;
   color: #111;
@@ -70,10 +37,10 @@ body {
 .container {
   max-width: 720px;
   margin: auto;
-  background: #fff;
-  padding: 22px;
+  background: white;
+  padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
 .header {
@@ -94,20 +61,30 @@ body {
 }
 
 .section-title {
-  margin-top: 26px;
+  margin-top: 28px;
   margin-bottom: 10px;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: bold;
   border-bottom: 1px solid #ddd;
   padding-bottom: 6px;
+}
+
+.status-bar {
+  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-weight: bold;
 }
 
 label {
   display: block;
   margin-top: 16px;
   margin-bottom: 6px;
+  font-size: 16px;
   font-weight: bold;
-  font-size: 15px;
 }
 
 input,
@@ -136,52 +113,28 @@ select:focus {
 
 button {
   margin-top: 14px;
-  border: none;
   background: #111;
   color: white;
   font-weight: bold;
+  border: none;
   cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  opacity: 0.94;
 }
 
 button:active {
   transform: scale(0.98);
 }
 
-.status-bar {
-  margin-bottom: 18px;
-  padding: 14px;
-  border-radius: 12px;
-  text-align: center;
-  background: #fff;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-
 .notice {
-  margin-top: 22px;
+  margin-top: 24px;
   text-align: center;
-  font-size: 14px;
   color: #666;
-}
-
-.footer-space {
-  height: 20px;
+  font-size: 14px;
 }
 
 @media (max-width: 600px) {
 
-  body {
-    padding: 10px;
-  }
-
   .container {
     padding: 16px;
-    border-radius: 12px;
   }
 
   .header h1 {
@@ -209,20 +162,11 @@ button:active {
 
 <div class="container">
 
-  <!-- HEADER -->
   <div class="header">
-
-    <h1>
-      Mike's Transport Service
-    </h1>
-
-    <h2>
-      Dispatcher Dashboard
-    </h2>
-
+    <h1>Mike's Transport Service</h1>
+    <h2>Dispatcher Dashboard</h2>
   </div>
 
-  <!-- CONNECTION STATUS -->
   <div
     id="connectionStatus"
     class="status-bar"
@@ -233,17 +177,16 @@ button:active {
     Ride Details
   </div>
 
-  <label for="name">
+  <label>
     Customer Name
   </label>
 
   <input
     id="name"
     placeholder="Customer Name"
-    autocomplete="name"
   >
 
-  <label for="flight">
+  <label>
     Flight Number
   </label>
 
@@ -252,19 +195,26 @@ button:active {
     placeholder="Flight Number"
   >
 
-  <label for="phone">
+  <label>
     Customer Phone
   </label>
 
   <input
     id="phone"
     type="tel"
-    inputmode="tel"
     placeholder="Customer Phone"
-    autocomplete="tel"
   >
 
-  <label for="pickup">
+  <label>
+    Home Address
+  </label>
+
+  <input
+    id="homeAddress"
+    placeholder="Customer Home Address"
+  >
+
+  <label>
     Pickup Address
   </label>
 
@@ -273,7 +223,7 @@ button:active {
     placeholder="Pickup Address"
   >
 
-  <label for="dropoff">
+  <label>
     Drop-off Address
   </label>
 
@@ -282,7 +232,7 @@ button:active {
     placeholder="Drop-off Address"
   >
 
-  <label for="date">
+  <label>
     Date
   </label>
 
@@ -291,7 +241,7 @@ button:active {
     type="date"
   >
 
-  <label for="time">
+  <label>
     Time
   </label>
 
@@ -300,9 +250,19 @@ button:active {
     type="time"
   >
 
-  <label for="driverPhone">
-    Assign Driver
+  <label>
+    Driver Instructions
   </label>
+
+  <textarea
+    id="driverComments"
+    placeholder="Driver Instructions"
+  ></textarea>
+
+  <!-- DRIVER -->
+  <div class="section-title">
+    Assign Driver
+  </div>
 
   <select id="driverPhone">
 
@@ -332,16 +292,6 @@ button:active {
 
   </select>
 
-  <label for="driverComments">
-    Driver Instructions
-  </label>
-
-  <textarea
-    id="driverComments"
-    maxlength="400"
-    placeholder="Driver Instructions"
-  ></textarea>
-
   <!-- ACTIONS -->
   <div class="section-title">
     Dispatcher Actions
@@ -351,7 +301,7 @@ button:active {
     📞 Call Customer
   </button>
 
-  <button onclick="textDriver()">
+  <button onclick="dispatchDriver()">
     🚕 Dispatch Driver
   </button>
 
@@ -360,15 +310,11 @@ button:active {
   </button>
 
   <button onclick="processCalendarEvent()">
-    📅 Add to Calendar + Download .ICS
+    📅 Add to Google Calendar + Download .ICS
   </button>
 
   <button onclick="downloadVCF()">
     👤 Save Customer Contact
-  </button>
-
-  <button onclick="openWaze()">
-    🗺 Open Pickup in Waze
   </button>
 
   <button onclick="clearForm()">
@@ -379,28 +325,9 @@ button:active {
     Optimized for iPhone, Android, Chrome, Safari, and Desktop.
   </div>
 
-  <div class="footer-space"></div>
-
 </div>
 
 <script>
-
-// ======================
-// SERVICE WORKER
-// ======================
-if ("serviceWorker" in navigator) {
-
-  window.addEventListener(
-    "load",
-    () => {
-
-      navigator.serviceWorker
-        .register("sw.js")
-        .catch(() => {});
-
-    }
-  );
-}
 
 // ======================
 // ONLINE STATUS
@@ -415,32 +342,18 @@ function updateConnectionStatus() {
   if (navigator.onLine) {
 
     status.innerHTML =
-`
-<span style="
-color:green;
-font-weight:bold;
-font-size:18px;
-">
-🟢 Online
-</span>
-`;
+      "🟢 Online";
+
+    status.style.color =
+      "green";
 
   } else {
 
     status.innerHTML =
-`
-<span style="
-color:red;
-font-weight:bold;
-font-size:18px;
-">
-🔴 Offline Mode
-</span>
+      "🔴 Offline Mode";
 
-<br><br>
-
-SMS dispatch still works.
-`;
+    status.style.color =
+      "red";
   }
 }
 
@@ -459,61 +372,18 @@ window.addEventListener(
   updateConnectionStatus
 );
 
-window.addEventListener(
-  "focus",
-  updateConnectionStatus
-);
-
 // ======================
-// IMPORT URL PARAMETERS
-// ======================
-function importRide() {
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  const fields = [
-    "name",
-    "flight",
-    "phone",
-    "pickup",
-    "dropoff",
-    "date",
-    "time"
-  ];
-
-  fields.forEach(field => {
-
-    const value =
-      params.get(field);
-
-    if (value) {
-
-      document
-        .getElementById(field)
-        .value = value;
-
-    }
-
-  });
-}
-
-window.onload = importRide;
-
-// ======================
-// REQUIRED FIELDS
+// VALIDATION
 // ======================
 function requireFields(fields) {
 
-  for (const field of fields) {
+  for (let field of fields) {
 
     const value =
       document
-        .getElementById(field)
-        .value
-        .trim();
+      .getElementById(field)
+      .value
+      .trim();
 
     if (!value) {
 
@@ -539,43 +409,69 @@ function safeFileName(text) {
 }
 
 // ======================
-// DATE FORMATTERS
+// FORMAT DATE
 // ======================
-function formatCalendarDate(date, time) {
-
-  return date.replaceAll("-", "") +
-    "T" +
-    time.replace(":", "") +
-    "00";
-}
-
-function plusOneHour(date, time) {
-
-  const start =
-    new Date(`${date}T${time}`);
-
-  const end =
-    new Date(
-      start.getTime() +
-      60 * 60 * 1000
-    );
-
-  const pad = n =>
-    String(n).padStart(2, "0");
+function formatDate(date, time) {
 
   return (
-    end.getFullYear() +
-    pad(end.getMonth() + 1) +
-    pad(end.getDate()) +
+    date.replaceAll("-", "") +
     "T" +
-    pad(end.getHours()) +
-    pad(end.getMinutes()) +
+    time.replace(":", "") +
     "00"
   );
 }
 
 // ======================
-// ADD TO CALENDAR
+// PLUS 1 HOUR
+// ======================
+function plusHour(date, time) {
+
+  const d =
+    new Date(`${date}T${time}`);
+
+  d.setHours(
+    d.getHours() + 1
+  );
+
+  const pad = n =>
+    String(n).padStart(2, "0");
+
+  return (
+    d.getFullYear() +
+    pad(d.getMonth() + 1) +
+    pad(d.getDate()) +
+    "T" +
+    pad(d.getHours()) +
+    pad(d.getMinutes()) +
+    "00"
+  );
+}
+
+// ======================
+// CALL CUSTOMER
+// ======================
+function callCustomer() {
+
+  const phone =
+    document
+      .getElementById("phone")
+      .value;
+
+  if (!phone) {
+
+    alert(
+      "Missing customer phone number"
+    );
+
+    return;
+  }
+
+  window.location.href =
+    `tel:${phone}`;
+}
+
+// ======================
+// GOOGLE CALENDAR
 // ======================
 function processCalendarEvent() {
 
@@ -585,41 +481,10 @@ function processCalendarEvent() {
     "time"
   ])) return;
 
-  const isiPhone =
-    /iPhone|iPad|iPod/i.test(
-      navigator.userAgent
-    );
-
-  if (isiPhone) {
-
-    openGoogleCalendar();
-
-  } else {
-
-    downloadICS();
-
-    setTimeout(() => {
-
-      openGoogleCalendar();
-
-    }, 500);
-  }
-}
-
-// ======================
-// GOOGLE CALENDAR
-// ======================
-function openGoogleCalendar() {
-
   const name =
     document.getElementById(
       "name"
     ).value;
-
-  const flight =
-    document.getElementById(
-      "flight"
-    ).value || "N/A";
 
   const phone =
     document.getElementById(
@@ -635,6 +500,11 @@ function openGoogleCalendar() {
     document.getElementById(
       "dropoff"
     ).value;
+
+  const flight =
+    document.getElementById(
+      "flight"
+    ).value || "N/A";
 
   const date =
     document.getElementById(
@@ -660,18 +530,14 @@ Drop-off:
 ${dropoff}`;
 
   const url =
-`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${formatCalendarDate(date,time)}/${plusOneHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
+`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${formatDate(date,time)}/${plusHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
 
   window.open(
     url,
     "_blank"
   );
 
-  setTimeout(() => {
-
-    window.focus();
-
-  }, 1200);
+  downloadICS();
 }
 
 // ======================
@@ -683,11 +549,6 @@ function downloadICS() {
     document.getElementById(
       "name"
     ).value;
-
-  const flight =
-    document.getElementById(
-      "flight"
-    ).value || "N/A";
 
   const phone =
     document.getElementById(
@@ -704,6 +565,11 @@ function downloadICS() {
       "dropoff"
     ).value;
 
+  const flight =
+    document.getElementById(
+      "flight"
+    ).value || "N/A";
+
   const date =
     document.getElementById(
       "date"
@@ -714,36 +580,22 @@ function downloadICS() {
       "time"
     ).value;
 
-  const start =
-    formatCalendarDate(
-      date,
-      time
-    );
-
-  const end =
-    plusOneHour(
-      date,
-      time
-    );
-
-  const stamp =
+  const now =
     new Date()
     .toISOString()
     .replace(/[-:]/g, "")
-    .split(".")[0] + "Z";
+    .split(".")[0];
 
   const ics =
 `BEGIN:VCALENDAR
 VERSION:2.0
-CALSCALE:GREGORIAN
 BEGIN:VEVENT
-DTSTAMP:${stamp}
-DTSTART:${start}
-DTEND:${end}
+DTSTAMP:${now}
+DTSTART:${formatDate(date,time)}
+DTEND:${plusHour(date,time)}
 SUMMARY:Ride for ${name}
 DESCRIPTION:Phone: ${phone}\\nFlight: ${flight}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}
 LOCATION:${pickup}
-STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
 
@@ -752,20 +604,18 @@ END:VCALENDAR`;
       [ics],
       {
         type:
-"text/calendar;charset=utf-8"
+          "text/calendar;charset=utf-8"
       }
     );
 
   const fileName =
-`${safeFileName(name)}-${date}-${time.replace(":","-")}.ics`;
-
-  const url =
-    URL.createObjectURL(blob);
+`${safeFileName(name)}-${date}-${time}.ics`;
 
   const link =
     document.createElement("a");
 
-  link.href = url;
+  link.href =
+    URL.createObjectURL(blob);
 
   link.download =
     fileName;
@@ -775,16 +625,10 @@ END:VCALENDAR`;
   link.click();
 
   document.body.removeChild(link);
-
-  setTimeout(() => {
-
-    URL.revokeObjectURL(url);
-
-  }, 3000);
 }
 
 // ======================
-// SAVE CONTACT
+// DOWNLOAD VCF
 // ======================
 function downloadVCF() {
 
@@ -803,11 +647,17 @@ function downloadVCF() {
       "phone"
     ).value;
 
+  const homeAddress =
+    document.getElementById(
+      "homeAddress"
+    ).value;
+
   const vcf =
 `BEGIN:VCARD
 VERSION:3.0
 FN:${name}
 TEL;TYPE=CELL:${phone}
+ADR;TYPE=HOME:;;${homeAddress};;;;
 END:VCARD`;
 
   const blob =
@@ -815,17 +665,15 @@ END:VCARD`;
       [vcf],
       {
         type:
-"text/vcard;charset=utf-8"
+          "text/vcard"
       }
     );
-
-  const url =
-    URL.createObjectURL(blob);
 
   const link =
     document.createElement("a");
 
-  link.href = url;
+  link.href =
+    URL.createObjectURL(blob);
 
   link.download =
 `${safeFileName(name)}.vcf`;
@@ -835,83 +683,30 @@ END:VCARD`;
   link.click();
 
   document.body.removeChild(link);
+}
+
+// ======================
+// DISPATCH DRIVER
+// ======================
+function dispatchDriver() {
+
+  if (!requireFields([
+    "name",
+    "driverPhone"
+  ])) return;
+
+  downloadICS();
 
   setTimeout(() => {
 
-    URL.revokeObjectURL(url);
+    downloadVCF();
 
-  }, 3000);
-}
+  }, 500);
 
-// ======================
-// CALL CUSTOMER
-// ======================
-function callCustomer() {
-
-  const phone =
-    document.getElementById(
-      "phone"
-    ).value;
-
-  if (!phone) {
-
-    alert(
-      "Missing customer phone number"
-    );
-
-    return;
-  }
-
-  window.location.href =
-`tel:${phone}`;
-}
-
-// ======================
-// OPEN WAZE
-// ======================
-function openWaze() {
-
-  const pickup =
-    document.getElementById(
-      "pickup"
-    ).value;
-
-  if (!pickup) {
-
-    alert(
-      "Missing pickup address"
-    );
-
-    return;
-  }
-
-  const url =
-`https://waze.com/ul?q=${encodeURIComponent(pickup)}&navigate=yes`;
-
-  window.open(
-    url,
-    "_blank"
-  );
-}
-
-// ======================
-// DRIVER DISPATCH
-// ======================
-function textDriver() {
-
-  const driver =
+  const driverPhone =
     document.getElementById(
       "driverPhone"
     ).value;
-
-  if (!driver) {
-
-    alert(
-      "Please select a driver."
-    );
-
-    return;
-  }
 
   const driverName =
     document.getElementById(
@@ -932,11 +727,6 @@ function textDriver() {
       "phone"
     ).value;
 
-  const flight =
-    document.getElementById(
-      "flight"
-    ).value || "N/A";
-
   const pickup =
     document.getElementById(
       "pickup"
@@ -946,6 +736,11 @@ function textDriver() {
     document.getElementById(
       "dropoff"
     ).value;
+
+  const flight =
+    document.getElementById(
+      "flight"
+    ).value || "N/A";
 
   const date =
     document.getElementById(
@@ -957,12 +752,12 @@ function textDriver() {
       "time"
     ).value;
 
-  const instructions =
+  const comments =
     document.getElementById(
       "driverComments"
     ).value || "None";
 
-  const message =
+  const msg =
 `🚕 DRIVER ASSIGNMENT
 
 Driver:
@@ -990,12 +785,13 @@ Time:
 ${time}
 
 Instructions:
-${instructions}
+${comments}
 
-Mike's Transport Service`;
+IMPORTANT:
+Attach the downloaded .ICS and .VCF files to this text message before sending.`;
 
   window.location.href =
-`sms:${driver}?body=${encodeURIComponent(message)}`;
+`sms:${driverPhone}?body=${encodeURIComponent(msg)}`;
 }
 
 // ======================
@@ -1003,14 +799,19 @@ Mike's Transport Service`;
 // ======================
 function sendConfirmation() {
 
-  const phone =
-    document.getElementById(
-      "phone"
-    ).value;
+  if (!requireFields([
+    "name",
+    "phone"
+  ])) return;
 
   const name =
     document.getElementById(
       "name"
+    ).value;
+
+  const phone =
+    document.getElementById(
+      "phone"
     ).value;
 
   const pickup =
@@ -1033,7 +834,7 @@ function sendConfirmation() {
       "time"
     ).value;
 
-  const message =
+  const msg =
 `Hi ${name},
 
 Your ride with Mike's Transport Service is confirmed.
@@ -1053,7 +854,7 @@ ${time}
 Thank you for choosing Mike's Transport Service.`;
 
   window.location.href =
-`sms:${phone}?body=${encodeURIComponent(message)}`;
+`sms:${phone}?body=${encodeURIComponent(msg)}`;
 }
 
 // ======================
