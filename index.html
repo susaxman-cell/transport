@@ -39,13 +39,13 @@ body {
   margin: auto;
   background: white;
   padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
 .header {
   text-align: center;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .header h1 {
@@ -73,10 +73,11 @@ body {
   margin-bottom: 20px;
   padding: 12px;
   border-radius: 12px;
-  background: #fff;
+  background: white;
   border: 1px solid #ddd;
   text-align: center;
   font-weight: bold;
+  font-size: 16px;
 }
 
 label {
@@ -100,7 +101,7 @@ button {
 }
 
 textarea {
-  min-height: 110px;
+  min-height: 100px;
   resize: vertical;
 }
 
@@ -162,11 +163,20 @@ button:active {
 
 <div class="container">
 
+  <!-- HEADER -->
   <div class="header">
-    <h1>Mike's Transport Service</h1>
-    <h2>Dispatcher Dashboard</h2>
+
+    <h1>
+      Mike's Transport Service
+    </h1>
+
+    <h2>
+      Dispatcher Dashboard
+    </h2>
+
   </div>
 
+  <!-- STATUS -->
   <div
     id="connectionStatus"
     class="status-bar"
@@ -196,23 +206,23 @@ button:active {
   >
 
   <label>
-  Customer Phone
-</label>
+    Customer Phone
+  </label>
 
-<input
-  id="phone"
-  type="tel"
-  placeholder="Customer Phone"
->
+  <input
+    id="phone"
+    type="tel"
+    placeholder="Customer Phone"
+  >
 
-<label>
-  Home Address
-</label>
+  <label>
+    Home Address
+  </label>
 
-<input
-  id="homeAddress"
-  placeholder="Customer Home Address"
->
+  <input
+    id="homeAddress"
+    placeholder="Customer Home Address"
+  >
 
   <label>
     Pickup Address
@@ -297,6 +307,10 @@ button:active {
     Dispatcher Actions
   </div>
 
+  <button onclick="loadTestRide()">
+    🧪 Load Test Ride
+  </button>
+
   <button onclick="callCustomer()">
     📞 Call Customer
   </button>
@@ -315,6 +329,10 @@ button:active {
 
   <button onclick="downloadVCF()">
     👤 Save Customer Contact
+  </button>
+
+  <button onclick="openWaze()">
+    🚗 Open Pickup in Waze
   </button>
 
   <button onclick="clearForm()">
@@ -422,7 +440,7 @@ function formatDate(date, time) {
 }
 
 // ======================
-// PLUS 1 HOUR
+// FIXED 1 HOUR EVENT
 // ======================
 function plusHour(date, time) {
 
@@ -446,6 +464,86 @@ function plusHour(date, time) {
     pad(end.getHours()) +
     pad(end.getMinutes()) +
     "00"
+  );
+}
+
+// ======================
+// TEST RIDE
+// ======================
+function loadTestRide() {
+
+  document.getElementById(
+    "name"
+  ).value =
+    "Test Passenger";
+
+  document.getElementById(
+    "phone"
+  ).value =
+    "9126436340";
+
+  document.getElementById(
+    "pickup"
+  ).value =
+    "SAV Airport";
+
+  document.getElementById(
+    "dropoff"
+  ).value =
+    "1260 May River Rd, Bluffton SC";
+
+  document.getElementById(
+    "homeAddress"
+  ).value =
+    "1260 May River Rd, Bluffton SC";
+
+  const now =
+    new Date();
+
+  const yyyy =
+    now.getFullYear();
+
+  const mm =
+    String(
+      now.getMonth() + 1
+    ).padStart(2, "0");
+
+  const dd =
+    String(
+      now.getDate()
+    ).padStart(2, "0");
+
+  document.getElementById(
+    "date"
+  ).value =
+    `${yyyy}-${mm}-${dd}`;
+
+  now.setHours(
+    now.getHours() + 1
+  );
+
+  const hh =
+    String(
+      now.getHours()
+    ).padStart(2, "0");
+
+  const min =
+    String(
+      now.getMinutes()
+    ).padStart(2, "0");
+
+  document.getElementById(
+    "time"
+  ).value =
+    `${hh}:${min}`;
+
+  document.getElementById(
+    "driverComments"
+  ).value =
+    "TEST RIDE - Dispatcher dashboard test.";
+
+  alert(
+    "Test ride loaded."
   );
 }
 
@@ -790,7 +888,7 @@ Instructions:
 ${comments}
 
 IMPORTANT:
-Attach the downloaded .ICS and .VCF files to this text message before sending.`;
+Attach the downloaded .ICS and .VCF files before sending.`;
 
   window.location.href =
 `sms:${driverPhone}?body=${encodeURIComponent(msg)}`;
@@ -857,6 +955,34 @@ Thank you for choosing Mike's Transport Service.`;
 
   window.location.href =
 `sms:${phone}?body=${encodeURIComponent(msg)}`;
+}
+
+// ======================
+// WAZE
+// ======================
+function openWaze() {
+
+  const pickup =
+    document.getElementById(
+      "pickup"
+    ).value;
+
+  if (!pickup) {
+
+    alert(
+      "Missing pickup address"
+    );
+
+    return;
+  }
+
+  const url =
+`https://waze.com/ul?q=${encodeURIComponent(pickup)}&navigate=yes`;
+
+  window.open(
+    url,
+    "_blank"
+  );
 }
 
 // ======================
