@@ -273,7 +273,7 @@ Assign Driver
     Mike Owner
   </option>
 
-  <option value="Marcus Driver|5712765400">
+  <option value="Marcus Driver|9126436340">
     Marcus Driver
   </option>
 
@@ -715,6 +715,28 @@ function textDriver(){
   const comments =
     document.getElementById("comments").value || "None";
 
+  const start =
+    formatICSDate(date,time);
+
+  const end =
+    plusOneHour(date,time);
+
+  const calendarDetails =
+`Customer: ${name}
+
+Phone: ${phone}
+
+Flight: ${flight}
+
+Pickup:
+${pickup}
+
+Drop-off:
+${dropoff}`;
+
+  const calendarURL =
+`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${start}/${end}&details=${encodeURIComponent(calendarDetails)}&location=${encodeURIComponent(pickup)}`;
+
   const wazeURL =
 `https://waze.com/ul?q=${encodeURIComponent(dropoff)}&navigate=yes`;
 
@@ -750,6 +772,9 @@ ${time}
 
 Instructions:
 ${comments}
+
+Calendar Link:
+${calendarURL}
 
 Waze Route:
 ${wazeURL}
@@ -901,7 +926,7 @@ function loadTestRide(){
     "Test Passenger";
 
   document.getElementById("phone").value =
-    "5712765400";
+    "9126436340";
 
   document.getElementById("pickup").value =
     "SAV Airport";
