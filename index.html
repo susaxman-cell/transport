@@ -273,7 +273,7 @@ Assign Driver
     Mike Owner
   </option>
 
-  <option value="Marcus Driver|9126436340">
+  <option value="Marcus Driver|5712765400">
     Marcus Driver
   </option>
 
@@ -838,7 +838,7 @@ function sendConfirmation(){
   const msg =
 `Hi ${name},
 
-Your ride with Mike's Transport Service is confirmed.
+Your ride is confirmed.
 
 Pickup:
 ${pickup}
@@ -858,7 +858,7 @@ ${driverName}
 Driver Phone:
 ${driverPhone}
 
-Thank you for choosing Mike's Transport Service!`;
+Thank you`;
 
   window.location.href =
 `sms:${phone}?body=${encodeURIComponent(msg)}`;
