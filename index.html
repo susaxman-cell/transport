@@ -16,139 +16,191 @@
 
 <title>Mike's Transport Service</title>
 
+<!-- PWA -->
+<link
+  rel="manifest"
+  href="/dispatcher-manifest.json"
+>
+
+<meta
+  name="theme-color"
+  content="#111111"
+>
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black"
+>
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="Mike Dispatch"
+>
+
 <style>
 
-*{
-  box-sizing:border-box;
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
-body{
-  margin:0;
-  padding:14px;
-  background:#f5f5f5;
-  font-family:Arial,sans-serif;
-  color:#111;
+* {
+  box-sizing: border-box;
 }
 
-.container{
-  max-width:700px;
-  margin:auto;
-  background:white;
-  padding:20px;
-  border-radius:18px;
-  box-shadow:0 2px 12px rgba(0,0,0,.08);
+body {
+  margin: 0;
+  padding: 12px;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
 }
 
-.header{
-  text-align:center;
-  margin-bottom:24px;
+.container {
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
 }
 
-.header h1{
-  margin:0;
-  font-size:30px;
+.header {
+  text-align: center;
+  margin-bottom: 18px;
 }
 
-.header h2{
-  margin-top:6px;
-  color:#666;
-  font-size:18px;
-  font-weight:normal;
+.header h1 {
+  margin: 0;
+  font-size: 30px;
 }
 
-.section-title{
-  margin-top:28px;
-  margin-bottom:10px;
-  padding-bottom:6px;
-  border-bottom:1px solid #ddd;
-  font-size:18px;
-  font-weight:bold;
+.header h2 {
+  margin-top: 5px;
+  color: #666;
+  font-size: 18px;
+  font-weight: normal;
 }
 
-label{
-  display:block;
-  margin-top:16px;
-  margin-bottom:6px;
-  font-weight:bold;
+.section-title {
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: bold;
 }
 
 input,
 textarea,
 select,
-button{
-  width:100%;
-  padding:16px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  font-size:17px;
-  background:white;
+button {
+  width: 100%;
+  padding: 15px;
+  font-size: 17px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
 }
 
-textarea{
-  min-height:110px;
-  resize:vertical;
+textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
-input:focus,
-textarea:focus,
-select:focus{
-  outline:none;
-  border-color:#111;
-  box-shadow:0 0 0 2px rgba(0,0,0,.1);
+button {
+  background: #111;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 12px;
 }
 
-button{
-  margin-top:14px;
-  border:none;
-  background:#111;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
+button:active {
+  transform: scale(0.98);
 }
 
-button:active{
-  transform:scale(.98);
+.status-bar {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 16px;
 }
 
-.status{
-  margin-bottom:18px;
-  padding:12px;
-  border-radius:10px;
-  background:white;
-  border:1px solid #ddd;
-  text-align:center;
-  font-weight:bold;
+.notice {
+  margin-top: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
 }
 
-.footer-space{
-  height:20px;
+.counter {
+  text-align: right;
+  color: #666;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
-@media(max-width:600px){
+/* PIN SCREEN */
+#pinScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
 
-  body{
-    padding:10px;
+.pin-box {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.pin-error {
+  color: red;
+  margin-top: 10px;
+  display: none;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+
+  .header h1 {
+    font-size: 26px;
   }
 
-  .container{
-    padding:16px;
-  }
-
-  .header h1{
-    font-size:24px;
-  }
-
-  .header h2{
-    font-size:16px;
+  .header h2 {
+    font-size: 16px;
   }
 
   input,
   textarea,
   select,
-  button{
-    font-size:18px;
+  button {
+    font-size: 18px;
   }
-
 }
 
 </style>
@@ -156,35 +208,75 @@ button:active{
 
 <body>
 
+<!-- PIN LOCK -->
+<div id="pinScreen">
+
+  <div class="pin-box">
+
+    <h2>
+      Dispatcher Dashboard
+    </h2>
+
+    <p>
+      Enter Access PIN
+    </p>
+
+    <input
+      id="pinInput"
+      type="password"
+      placeholder="Enter PIN"
+      style="text-align:center;"
+    >
+
+    <button onclick="unlockDashboard()">
+      Unlock Dashboard
+    </button>
+
+    <div
+      id="pinError"
+      class="pin-error"
+    >
+      Incorrect PIN
+    </div>
+
+  </div>
+
+</div>
+
 <div class="container">
 
 <div class="header">
-  <h1>Mike's Transport Service</h1>
-  <h2>Dispatcher Dashboard</h2>
+
+  <h1>
+    Mike's Transport Service
+  </h1>
+
+  <h2>
+    Dispatcher Dashboard
+  </h2>
+
 </div>
 
+<!-- STATUS -->
 <div
   id="connectionStatus"
-  class="status"
->
-Checking connection...
+  class="status-bar">
 </div>
 
 <div class="section-title">
 Ride Details
 </div>
 
-<label for="name">
+<label>
 Customer Name
 </label>
 
 <input
   id="name"
-  placeholder="Full Name"
-  autocomplete="name"
+  placeholder="Customer Name"
 >
 
-<label for="flight">
+<label>
 Flight Number
 </label>
 
@@ -193,27 +285,19 @@ Flight Number
   placeholder="Flight Number"
 >
 
-<label for="phone">
+<label>
 Customer Phone
 </label>
 
 <input
   id="phone"
   type="tel"
-  inputmode="tel"
-  placeholder="Phone Number"
+  inputmode="numeric"
+  maxlength="15"
+  placeholder="Customer Phone"
 >
 
-<label for="homeAddress">
-Home Address
-</label>
-
-<input
-  id="homeAddress"
-  placeholder="Customer Home Address"
->
-
-<label for="pickup">
+<label>
 Pickup Address
 </label>
 
@@ -222,7 +306,7 @@ Pickup Address
   placeholder="Pickup Address"
 >
 
-<label for="dropoff">
+<label>
 Drop-off Address
 </label>
 
@@ -231,7 +315,7 @@ Drop-off Address
   placeholder="Drop-off Address"
 >
 
-<label for="date">
+<label>
 Date
 </label>
 
@@ -240,7 +324,7 @@ Date
   type="date"
 >
 
-<label for="time">
+<label>
 Time
 </label>
 
@@ -249,119 +333,317 @@ Time
   type="time"
 >
 
-<label for="comments">
-Driver Instructions
+<label>
+Assign Driver
 </label>
 
-<textarea
-  id="comments"
-  maxlength="300"
-  placeholder="Instructions for driver"
-></textarea>
-
-<div class="section-title">
-Assign Driver
-</div>
-
-<select id="driver">
+<select id="driverPhone">
 
   <option value="">
     Select Driver
   </option>
 
-  <option value="Mike Owner|9124014964">
-    Mike Owner
+  <option value="9124014964">
+    Mike
   </option>
 
-  <option value="Marcus Driver|5712765400">
-    Marcus Driver
+  <option value="5712765400">
+    Marcus
   </option>
 
-  <option value="Bill Driver|7049687843">
-    Bill Driver
+  <option value="7049687843">
+    Bill
   </option>
 
-  <option value="Rod Driver|9123417484">
-    Rod Driver
+  <option value="9123417484">
+    Rod
   </option>
 
-  <option value="Taylor Driver|4406548497">
-    Taylor Driver
+  <option value="4406548497">
+    Taylor
   </option>
 
 </select>
+
+<label>
+Driver Instructions
+</label>
+
+<textarea
+  id="driverComments"
+  maxlength="200"
+  placeholder="Driver Instructions">
+</textarea>
+
+<div
+  id="driverCount"
+  class="counter">
+  0 / 200
+</div>
+
+<label>
+Customer Comments
+</label>
+
+<textarea
+  id="customerComments"
+  maxlength="200"
+  placeholder="Comments to customer">
+</textarea>
+
+<div
+  id="customerCount"
+  class="counter">
+  0 / 200
+</div>
 
 <div class="section-title">
 Dispatcher Actions
 </div>
 
-<button onclick="processCalendarEvent()">
-📅 Add to Google Calendar + Download .ICS
+<label>
+Load Test Ride
+</label>
+
+<button onclick="loadTestRide()">
+🧪 Load Test Ride
+</button>
+
+<button onclick="callCustomer()">
+📞 Call Customer
 </button>
 
 <button onclick="textDriver()">
 🚕 Dispatch Driver
 </button>
 
-<button onclick="downloadVCF()">
-👤 Save Customer Contact
-</button>
-
 <button onclick="sendConfirmation()">
 📩 Send Customer Confirmation
 </button>
 
-<button onclick="callDriver()">
-📞 Call Driver
+<button onclick="processCalendarEvent()">
+📅 Add to Google Calendar + Download .ICS
 </button>
 
-<button onclick="callCustomer()">
-📱 Call Customer
-</button>
-
-<button onclick="loadTestRide()">
-🧪 Load Test Ride
+<button onclick="downloadVCF()">
+👤 Save Customer Contact
 </button>
 
 <button onclick="clearForm()">
 🗑 Clear Ride Form
 </button>
 
-<div class="footer-space"></div>
+<button onclick="dispatchAll()">
+🚀 Dispatch All
+</button>
+
+<div class="notice">
+Optimized for iPhone, Android, and Desktop.
+</div>
 
 </div>
 
 <script>
 
 // ======================
+// SERVICE WORKER
+// ======================
+if ("serviceWorker" in navigator) {
+
+  navigator.serviceWorker.register(
+    "/sw.js"
+  );
+}
+
+// ======================
+// WAKE LOCK
+// ======================
+let wakeLock = null;
+
+async function requestWakeLock() {
+
+  try {
+
+    wakeLock =
+      await navigator.wakeLock.request(
+        "screen"
+      );
+
+  } catch (err) {
+
+    console.log(err);
+  }
+}
+
+if ("wakeLock" in navigator) {
+
+  requestWakeLock();
+
+  document.addEventListener(
+    "visibilitychange",
+    () => {
+
+      if (
+        wakeLock !== null &&
+        document.visibilityState === "visible"
+      ) {
+
+        requestWakeLock();
+      }
+    }
+  );
+}
+
+// ======================
+// DISPATCHER PIN
+// ======================
+const DISPATCHER_PIN = "2468";
+
+function unlockDashboard() {
+
+  const enteredPin =
+    document.getElementById(
+      "pinInput"
+    ).value;
+
+  const error =
+    document.getElementById(
+      "pinError"
+    );
+
+  if (enteredPin === DISPATCHER_PIN) {
+
+    document.getElementById(
+      "pinScreen"
+    ).style.display = "none";
+
+    sessionStorage.setItem(
+      "dispatcherUnlocked",
+      "true"
+    );
+
+    startActivityTracking();
+
+  } else {
+
+    error.style.display = "block";
+  }
+}
+
+if (
+  sessionStorage.getItem(
+    "dispatcherUnlocked"
+  ) === "true"
+) {
+
+  window.addEventListener(
+    "load",
+    () => {
+
+      document.getElementById(
+        "pinScreen"
+      ).style.display = "none";
+
+      startActivityTracking();
+    }
+  );
+}
+
+// ======================
+// AUTO LOCK
+// ======================
+const AUTO_LOCK_TIME =
+  15 * 60 * 1000;
+
+let inactivityTimer;
+
+function resetInactivityTimer() {
+
+  clearTimeout(
+    inactivityTimer
+  );
+
+  inactivityTimer =
+    setTimeout(
+      lockDashboard,
+      AUTO_LOCK_TIME
+    );
+}
+
+function lockDashboard() {
+
+  sessionStorage.removeItem(
+    "dispatcherUnlocked"
+  );
+
+  document.getElementById(
+    "pinScreen"
+  ).style.display = "flex";
+
+  document.getElementById(
+    "pinInput"
+  ).value = "";
+}
+
+function startActivityTracking() {
+
+  [
+    "click",
+    "touchstart",
+    "keydown",
+    "mousemove",
+    "scroll"
+  ].forEach(event => {
+
+    document.addEventListener(
+      event,
+      resetInactivityTimer
+    );
+  });
+
+  resetInactivityTimer();
+}
+
+// ======================
 // ONLINE STATUS
 // ======================
-
-function updateConnectionStatus(){
+function updateConnectionStatus() {
 
   const status =
     document.getElementById(
       "connectionStatus"
     );
 
-  if(navigator.onLine){
+  if (navigator.onLine) {
 
     status.innerHTML =
-      "🟢 Online";
+`
+<span style="
+color:green;
+font-weight:bold;
+font-size:18px;
+">
+🟢 Online
+</span>
+`;
 
-    status.style.color =
-      "green";
-
-  }else{
+  } else {
 
     status.innerHTML =
-      "🔴 Offline";
+`
+<span style="
+color:red;
+font-weight:bold;
+font-size:18px;
+">
+🔴 Offline Mode
+</span>
 
-    status.style.color =
-      "red";
+<br><br>
 
+SMS dispatch still works.
+`;
   }
-
 }
 
 updateConnectionStatus();
@@ -377,166 +659,233 @@ window.addEventListener(
 );
 
 // ======================
-// IMPORT FROM URL
+// COMMENT COUNTERS
 // ======================
+document.getElementById(
+  "driverComments"
+).addEventListener(
+  "input",
+  function() {
 
-function importRide(){
+    document.getElementById(
+      "driverCount"
+    ).innerText =
+`${this.value.length} / 200`;
+  }
+);
 
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
+document.getElementById(
+  "customerComments"
+).addEventListener(
+  "input",
+  function() {
 
-  const fields = [
+    document.getElementById(
+      "customerCount"
+    ).innerText =
+`${this.value.length} / 200`;
+  }
+);
+
+// ======================
+// VALIDATION
+// ======================
+function validateRideForm() {
+
+  const requiredFields = [
     "name",
-    "flight",
     "phone",
-    "homeAddress",
     "pickup",
     "dropoff",
     "date",
-    "time",
-    "comments"
+    "time"
   ];
 
-  fields.forEach(field=>{
+  for (const id of requiredFields) {
 
     const value =
-      params.get(field);
+      document.getElementById(
+        id
+      ).value.trim();
 
-    if(value){
+    if (!value) {
 
-      document
-        .getElementById(field)
-        .value = value;
+      alert(
+        "Please complete all required ride details."
+      );
 
+      document.getElementById(
+        id
+      ).focus();
+
+      return false;
     }
+  }
 
-  });
-
-}
-
-window.onload = importRide;
-
-// ======================
-// SAFE FILE NAME
-// ======================
-
-function safeFileName(text){
-
-  return text
-    .replace(/[^\w\s-]/g,"")
-    .replace(/\s+/g,"_");
-
+  return true;
 }
 
 // ======================
-// FORMAT DATE
+// CALL CUSTOMER
 // ======================
-
-function formatICSDate(date,time){
-
-  const d =
-    new Date(`${date}T${time}`);
-
-  const pad = n =>
-    String(n).padStart(2,"0");
-
-  return (
-    d.getFullYear() +
-    pad(d.getMonth()+1) +
-    pad(d.getDate()) +
-    "T" +
-    pad(d.getHours()) +
-    pad(d.getMinutes()) +
-    "00"
-  );
-
-}
-
-// ======================
-// PLUS 1 HOUR
-// ======================
-
-function plusOneHour(date,time){
-
-  const d =
-    new Date(`${date}T${time}`);
-
-  d.setHours(
-    d.getHours()+1
-  );
-
-  const pad = n =>
-    String(n).padStart(2,"0");
-
-  return (
-    d.getFullYear() +
-    pad(d.getMonth()+1) +
-    pad(d.getDate()) +
-    "T" +
-    pad(d.getHours()) +
-    pad(d.getMinutes()) +
-    "00"
-  );
-
-}
-
-// ======================
-// GOOGLE CALENDAR + ICS
-// ======================
-
-function processCalendarEvent(){
-
-  const name =
-    document.getElementById("name").value;
+function callCustomer() {
 
   const phone =
-    document.getElementById("phone").value;
+    document.getElementById(
+      "phone"
+    ).value;
 
-  const flight =
-    document.getElementById("flight").value || "N/A";
-
-  const pickup =
-    document.getElementById("pickup").value;
-
-  const dropoff =
-    document.getElementById("dropoff").value;
-
-  const date =
-    document.getElementById("date").value;
-
-  const time =
-    document.getElementById("time").value;
-
-  if(
-    !name ||
-    !date ||
-    !time
-  ){
+  if (!phone) {
 
     alert(
-      "Missing required fields."
+      "Customer phone required."
     );
 
     return;
-
   }
 
-  const start =
-    formatICSDate(date,time);
+  window.location.href =
+`tel:${phone}`;
+}
 
-  const end =
-    plusOneHour(date,time);
+// ======================
+// SAFE FILE NAMES
+// ======================
+function safeParts() {
 
-  // GOOGLE CALENDAR
+  const name =
+    document.getElementById(
+      "name"
+    ).value || "ride";
+
+  const date =
+    document.getElementById(
+      "date"
+    ).value || "no-date";
+
+  const time =
+    document.getElementById(
+      "time"
+    ).value || "no-time";
+
+  return {
+
+    name:
+      name.replace(/\s+/g, "_"),
+
+    date,
+
+    time:
+      time.replace(/:/g, "-")
+  };
+}
+
+// ======================
+// DATE FORMAT
+// ======================
+function format(date, time) {
+
+  return date.replaceAll("-", "") +
+    "T" +
+    time.replace(":", "") +
+    "00";
+}
+
+function plusHour(date, time) {
+
+  const [year, month, day] =
+    date.split("-");
+
+  const [hour, minute] =
+    time.split(":");
+
+  const d =
+    new Date(
+      year,
+      month - 1,
+      day,
+      hour,
+      minute
+    );
+
+  d.setHours(
+    d.getHours() + 1
+  );
+
+  const yyyy =
+    d.getFullYear();
+
+  const mm =
+    String(
+      d.getMonth() + 1
+    ).padStart(2, "0");
+
+  const dd =
+    String(
+      d.getDate()
+    ).padStart(2, "0");
+
+  const hh =
+    String(
+      d.getHours()
+    ).padStart(2, "0");
+
+  const min =
+    String(
+      d.getMinutes()
+    ).padStart(2, "0");
+
+  return `${yyyy}${mm}${dd}T${hh}${min}00`;
+}
+
+// ======================
+// GOOGLE CALENDAR
+// ======================
+function processCalendarEvent() {
+
+  if (!validateRideForm()) return;
+
+  addGoogle();
+
+  downloadICS();
+}
+
+function addGoogle() {
+
+  const name =
+    document.getElementById(
+      "name"
+    ).value;
+
+  const phone =
+    document.getElementById(
+      "phone"
+    ).value;
+
+  const pickup =
+    document.getElementById(
+      "pickup"
+    ).value;
+
+  const dropoff =
+    document.getElementById(
+      "dropoff"
+    ).value;
+
+  const date =
+    document.getElementById(
+      "date"
+    ).value;
+
+  const time =
+    document.getElementById(
+      "time"
+    ).value;
 
   const details =
 `Customer: ${name}
 
 Phone: ${phone}
-
-Flight: ${flight}
 
 Pickup:
 ${pickup}
@@ -544,26 +893,66 @@ ${pickup}
 Drop-off:
 ${dropoff}`;
 
-  const googleURL =
-`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${start}/${end}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
+  const url =
+`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${format(date,time)}/${plusHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
 
   window.open(
-    googleURL,
+    url,
     "_blank"
   );
+}
 
-  // ICS DOWNLOAD
+// ======================
+// DOWNLOAD ICS
+// ======================
+function downloadICS() {
+
+  const name =
+    document.getElementById(
+      "name"
+    ).value;
+
+  const phone =
+    document.getElementById(
+      "phone"
+    ).value;
+
+  const pickup =
+    document.getElementById(
+      "pickup"
+    ).value;
+
+  const dropoff =
+    document.getElementById(
+      "dropoff"
+    ).value;
+
+  const date =
+    document.getElementById(
+      "date"
+    ).value;
+
+  const time =
+    document.getElementById(
+      "time"
+    ).value;
+
+  const now =
+    new Date()
+    .toISOString()
+    .replace(/[-:]/g, "")
+    .split(".")[0];
 
   const ics =
 `BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
+DTSTAMP:${now}
+DTSTART:${format(date,time)}
+DTEND:${plusHour(date,time)}
 SUMMARY:Ride for ${name}
-DTSTART:${start}
-DTEND:${end}
-DESCRIPTION:Phone: ${phone}\\nFlight: ${flight}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}
+DESCRIPTION:Phone: ${phone}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}
 LOCATION:${pickup}
-STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
 
@@ -572,178 +961,120 @@ END:VCALENDAR`;
       [ics],
       {
         type:
-        "text/calendar;charset=utf-8"
+"text/calendar;charset=utf-8;"
       }
     );
 
-  const url =
-    URL.createObjectURL(blob);
+  const p =
+    safeParts();
 
   const link =
-    document.createElement("a");
-
-  link.href = url;
-
-  link.download =
-`${safeFileName(name)}-${date}-${time}.ics`;
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  document.body.removeChild(link);
-
-  setTimeout(()=>{
-
-    URL.revokeObjectURL(url);
-
-  },3000);
-
-}
-
-// ======================
-// SAVE CONTACT
-// ======================
-
-function downloadVCF(){
-
-  const name =
-    document.getElementById("name").value;
-
-  const phone =
-    document.getElementById("phone").value;
-
-  const homeAddress =
-    document.getElementById("homeAddress").value;
-
-  if(!name || !phone){
-
-    alert(
-      "Missing customer info."
+    document.createElement(
+      "a"
     );
 
-    return;
-
-  }
-
-  const vcf =
-`BEGIN:VCARD
-VERSION:3.0
-FN:${name}
-TEL;TYPE=CELL:${phone}
-ADR:;;${homeAddress}
-END:VCARD`;
-
-  const blob =
-    new Blob(
-      [vcf],
-      {
-        type:"text/vcard"
-      }
-    );
-
-  const url =
+  link.href =
     URL.createObjectURL(blob);
 
-  const link =
-    document.createElement("a");
-
-  link.href = url;
-
   link.download =
-`${safeFileName(name)}.vcf`;
-
-  document.body.appendChild(link);
+`${p.name}-${p.date}-${p.time}.ics`;
 
   link.click();
-
-  document.body.removeChild(link);
-
-  setTimeout(()=>{
-
-    URL.revokeObjectURL(url);
-
-  },3000);
-
 }
 
 // ======================
 // DRIVER DISPATCH
 // ======================
+function textDriver() {
 
-function textDriver(){
+  if (!validateRideForm()) return;
 
   const driver =
-    document.getElementById("driver").value;
+    document.getElementById(
+      "driverPhone"
+    ).value;
 
-  if(!driver){
+  if (!driver) {
 
     alert(
-      "Select a driver."
+      "Please select a driver."
     );
 
     return;
-
   }
 
-  const [
-    driverName,
-    driverPhone
-  ] = driver.split("|");
+  const driverName =
+    document.getElementById(
+      "driverPhone"
+    ).options[
+      document.getElementById(
+        "driverPhone"
+      ).selectedIndex
+    ].text;
 
   const name =
-    document.getElementById("name").value;
+    document.getElementById(
+      "name"
+    ).value;
 
   const phone =
-    document.getElementById("phone").value;
+    document.getElementById(
+      "phone"
+    ).value;
 
   const flight =
-    document.getElementById("flight").value || "N/A";
+    document.getElementById(
+      "flight"
+    ).value || "N/A";
 
   const pickup =
-    document.getElementById("pickup").value;
+    document.getElementById(
+      "pickup"
+    ).value;
 
   const dropoff =
-    document.getElementById("dropoff").value;
+    document.getElementById(
+      "dropoff"
+    ).value;
 
   const date =
-    document.getElementById("date").value;
+    document.getElementById(
+      "date"
+    ).value;
 
   const time =
-    document.getElementById("time").value;
+    document.getElementById(
+      "time"
+    ).value;
 
-  const comments =
-    document.getElementById("comments").value || "None";
+  const instructions =
+    document.getElementById(
+      "driverComments"
+    ).value || "None";
 
-  const start =
-    formatICSDate(date,time);
+  const pickupEncoded =
+    encodeURIComponent(
+      pickup
+    );
 
-  const end =
-    plusOneHour(date,time);
+  const dropoffEncoded =
+    encodeURIComponent(
+      dropoff
+    );
 
-  const calendarDetails =
-`Customer: ${name}
+  const wazePickup =
+`https://waze.com/ul?q=${pickupEncoded}`;
 
-Phone: ${phone}
+  const googlePickup =
+`https://www.google.com/maps/search/?api=1&query=${pickupEncoded}`;
 
-Flight: ${flight}
+  const wazeDropoff =
+`https://waze.com/ul?q=${dropoffEncoded}`;
 
-Pickup:
-${pickup}
+  const googleDropoff =
+`https://www.google.com/maps/search/?api=1&query=${dropoffEncoded}`;
 
-Drop-off:
-${dropoff}`;
-
-  const calendarURL =
-`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${start}/${end}&details=${encodeURIComponent(calendarDetails)}&location=${encodeURIComponent(pickup)}`;
-
-  const wazeURL =
-`https://waze.com/ul?q=${encodeURIComponent(dropoff)}&navigate=yes`;
-
-  const mapsURL =
-`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(dropoff)}`;
-
-  const msg =
+  const message =
 `🚕 DRIVER ASSIGNMENT
 
 Driver:
@@ -761,8 +1092,18 @@ ${flight}
 Pickup:
 ${pickup}
 
+Pickup Navigation:
+${wazePickup}
+
+${googlePickup}
+
 Drop-off:
 ${dropoff}
+
+Drop-off Navigation:
+${wazeDropoff}
+
+${googleDropoff}
 
 Date:
 ${date}
@@ -771,74 +1112,72 @@ Time:
 ${time}
 
 Instructions:
-${comments}
+${instructions}
 
-Calendar Link:
-${calendarURL}
-
-Waze Route:
-${wazeURL}
-
-Maps Route:
-${mapsURL}
-
-Assigned Ride`;
+Assigned Driver`;
 
   window.location.href =
-`sms:${driverPhone}?body=${encodeURIComponent(msg)}`;
-
+`sms:${driver}?body=${encodeURIComponent(message)}`;
 }
 
 // ======================
 // CUSTOMER CONFIRMATION
 // ======================
+function sendConfirmation() {
 
-function sendConfirmation(){
-
-  const driver =
-    document.getElementById("driver").value;
-
-  let driverName =
-    "Pending";
-
-  let driverPhone =
-    "Pending";
-
-  if(driver){
-
-    const split =
-      driver.split("|");
-
-    driverName =
-      split[0];
-
-    driverPhone =
-      split[1];
-
-  }
-
-  const name =
-    document.getElementById("name").value;
+  if (!validateRideForm()) return;
 
   const phone =
-    document.getElementById("phone").value;
+    document.getElementById(
+      "phone"
+    ).value;
+
+  const name =
+    document.getElementById(
+      "name"
+    ).value;
 
   const pickup =
-    document.getElementById("pickup").value;
+    document.getElementById(
+      "pickup"
+    ).value;
 
   const dropoff =
-    document.getElementById("dropoff").value;
+    document.getElementById(
+      "dropoff"
+    ).value;
 
   const date =
-    document.getElementById("date").value;
+    document.getElementById(
+      "date"
+    ).value;
 
   const time =
-    document.getElementById("time").value;
+    document.getElementById(
+      "time"
+    ).value;
 
-  const msg =
+  const customerComments =
+    document.getElementById(
+      "customerComments"
+    ).value || "None";
+
+  const driverName =
+    document.getElementById(
+      "driverPhone"
+    ).options[
+      document.getElementById(
+        "driverPhone"
+      ).selectedIndex
+    ].text || "Assigned Driver";
+
+  const message =
 `Hi ${name},
 
 Your ride is confirmed.
+
+Driver:
+${driverName}
 
 Pickup:
 ${pickup}
@@ -852,124 +1191,196 @@ ${date}
 Time:
 ${time}
 
-Driver:
-${driverName}
+Comments:
+${customerComments}
 
-Driver Phone:
-${driverPhone}
-
-Thank you`;
+Thank you.`;
 
   window.location.href =
-`sms:${phone}?body=${encodeURIComponent(msg)}`;
-
+`sms:${phone}?body=${encodeURIComponent(message)}`;
 }
 
 // ======================
-// CALL DRIVER
+// SAVE CONTACT
 // ======================
+function downloadVCF() {
 
-function callDriver(){
-
-  const driver =
-    document.getElementById("driver").value;
-
-  if(!driver){
-
-    alert(
-      "Select a driver."
-    );
-
-    return;
-
-  }
+  const name =
+    document.getElementById(
+      "name"
+    ).value;
 
   const phone =
-    driver.split("|")[1];
+    document.getElementById(
+      "phone"
+    ).value;
 
-  window.location.href =
-`tel:${phone}`;
+  const vcf =
+`BEGIN:VCARD
+VERSION:3.0
+FN:${name}
+TEL:${phone}
+END:VCARD`;
 
-}
-
-// ======================
-// CALL CUSTOMER
-// ======================
-
-function callCustomer(){
-
-  const phone =
-    document.getElementById("phone").value;
-
-  if(!phone){
-
-    alert(
-      "Missing customer phone."
+  const blob =
+    new Blob(
+      [vcf],
+      {
+        type:
+"text/vcard"
+      }
     );
 
-    return;
+  const link =
+    document.createElement(
+      "a"
+    );
 
-  }
+  link.href =
+    URL.createObjectURL(blob);
 
-  window.location.href =
-`tel:${phone}`;
+  link.download =
+`${name}.vcf`;
 
+  link.click();
 }
 
 // ======================
-// TEST RIDE
+// LOAD TEST RIDE
 // ======================
+function loadTestRide() {
 
-function loadTestRide(){
+  const today =
+    new Date();
 
-  document.getElementById("name").value =
-    "Test Passenger";
+  const yyyy =
+    today.getFullYear();
 
-  document.getElementById("phone").value =
-    "9124014964";
+  const mm =
+    String(
+      today.getMonth() + 1
+    ).padStart(2, "0");
 
-  document.getElementById("pickup").value =
-    "SAV Airport";
+  const dd =
+    String(
+      today.getDate()
+    ).padStart(2, "0");
 
-  document.getElementById("dropoff").value =
-    "1260 May River Rd, Bluffton SC";
+  document.getElementById(
+    "name"
+  ).value = "Test Rider";
 
-  document.getElementById("date").value =
-    new Date()
-      .toISOString()
-      .split("T")[0];
+  document.getElementById(
+    "flight"
+  ).value = "DL1234";
 
-  document.getElementById("time").value =
-    "12:00";
+  document.getElementById(
+    "phone"
+  ).value = "5712765400";
 
+  document.getElementById(
+    "pickup"
+  ).value =
+"SAV Airport";
+
+  document.getElementById(
+    "dropoff"
+  ).value =
+"1260 May River Rd, Bluffton SC";
+
+  document.getElementById(
+    "date"
+  ).value =
+`${yyyy}-${mm}-${dd}`;
+
+  document.getElementById(
+    "time"
+  ).value = "12:00";
+
+  document.getElementById(
+    "driverPhone"
+  ).selectedIndex = 1;
+
+  document.getElementById(
+    ""
+  ).value =
+"";
+
+  document.getElementById(
+    ""
+  ).value =
+"Driver will text upon arrival.";
+
+  document.getElementById(
+    "driverCount"
+  ).innerText =
+"37 / 200";
+
+  document.getElementById(
+    "customerCount"
+  ).innerText =
+"32 / 200";
+
+  alert(
+    "Test ride loaded successfully."
+  );
 }
 
 // ======================
 // CLEAR FORM
 // ======================
+function clearForm() {
 
-function clearForm(){
-
-  if(
+  if (
     !confirm(
       "Clear ride form?"
     )
   ) return;
 
-  document
-    .querySelectorAll(
-      "input, textarea"
-    )
-    .forEach(field=>{
+  document.querySelectorAll(
+    "input, textarea"
+  ).forEach(field => {
 
-      field.value = "";
-
-    });
+    field.value = "";
+  });
 
   document.getElementById(
-    "driver"
+    "driverPhone"
   ).selectedIndex = 0;
 
+  document.getElementById(
+    "driverCount"
+  ).innerText =
+"0 / 200";
+
+  document.getElementById(
+    "customerCount"
+  ).innerText =
+"0 / 200";
+}
+
+// ======================
+// DISPATCH ALL
+// ======================
+function dispatchAll() {
+
+  if (!validateRideForm()) return;
+
+  processCalendarEvent();
+
+  downloadVCF();
+
+  setTimeout(() => {
+
+    textDriver();
+
+  }, 500);
+
+  setTimeout(() => {
+
+    sendConfirmation();
+
+  }, 1500);
 }
 
 </script>
