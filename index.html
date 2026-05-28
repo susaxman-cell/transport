@@ -413,16 +413,16 @@ Load Test Ride
 📞 Call Customer
 </button>
 
+<button onclick="processCalendarEvent()">
+📅 Add to Google Calendar + Download .ICS
+</button>
+
 <button onclick="textDriver()">
 🚕 Dispatch Driver
 </button>
 
 <button onclick="sendConfirmation()">
 📩 Send Customer Confirmation
-</button>
-
-<button onclick="processCalendarEvent()">
-📅 Add to Google Calendar + Download .ICS
 </button>
 
 <button onclick="downloadVCF()">
@@ -946,7 +946,9 @@ function downloadICS() {
   const ics =
 `BEGIN:VCALENDAR
 VERSION:2.0
+METHOD:PUBLISH
 BEGIN:VEVENT
+UID:${Date.now()}@mikestransportservice.com
 DTSTAMP:${now}
 DTSTART:${format(date,time)}
 DTEND:${plusHour(date,time)}
@@ -1074,6 +1076,23 @@ function textDriver() {
   const googleDropoff =
 `https://www.google.com/maps/search/?api=1&query=${dropoffEncoded}`;
 
+  const details =
+`Customer: ${name}
+
+Phone: ${phone}
+
+Pickup:
+${pickup}
+
+Drop-off:
+${dropoff}
+
+Driver:
+${driverName}`;
+
+  const driverCalendarLink =
+`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${format(date,time)}/${plusHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
+
   const message =
 `🚕 DRIVER ASSIGNMENT
 
@@ -1113,6 +1132,9 @@ ${time}
 
 Instructions:
 ${instructions}
+
+Add Ride To Calendar:
+${driverCalendarLink}
 
 Assigned Driver`;
 
@@ -1302,24 +1324,24 @@ function loadTestRide() {
   ).selectedIndex = 1;
 
   document.getElementById(
-    ""
+    "driverComments"
   ).value =
 "";
 
   document.getElementById(
-    ""
+    "customerComments"
   ).value =
-"Driver will text upon arrival.";
+"";
 
   document.getElementById(
     "driverCount"
   ).innerText =
-"37 / 200";
+`${document.getElementById("driverComments").value.length} / 200`;
 
   document.getElementById(
     "customerCount"
   ).innerText =
-"32 / 200";
+`${document.getElementById("customerComments").value.length} / 200`;
 
   alert(
     "Test ride loaded successfully."
