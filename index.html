@@ -154,7 +154,6 @@ button:active {
   margin-top: 4px;
 }
 
-/* PIN SCREEN */
 #pinScreen {
   position: fixed;
   top: 0;
@@ -208,7 +207,6 @@ button:active {
 
 <body>
 
-<!-- PIN LOCK -->
 <div id="pinScreen">
 
   <div class="pin-box">
@@ -257,7 +255,6 @@ button:active {
 
 </div>
 
-<!-- STATUS -->
 <div
   id="connectionStatus"
   class="status-bar">
@@ -1058,28 +1055,6 @@ function textDriver() {
       "driverComments"
     ).value || "None";
 
-  const pickupEncoded =
-    encodeURIComponent(
-      pickup
-    );
-
-  const dropoffEncoded =
-    encodeURIComponent(
-      dropoff
-    );
-
-  const wazePickup =
-`https://waze.com/ul?q=${pickupEncoded}`;
-
-  const googlePickup =
-`https://www.google.com/maps/search/?api=1&query=${pickupEncoded}`;
-
-  const wazeDropoff =
-`https://waze.com/ul?q=${dropoffEncoded}`;
-
-  const googleDropoff =
-`https://www.google.com/maps/search/?api=1&query=${dropoffEncoded}`;
-
   const details =
 `Customer: ${name}
 
@@ -1115,18 +1090,8 @@ ${flight}
 Pickup:
 ${pickup}
 
-Pickup Navigation:
-${wazePickup}
-
-${googlePickup}
-
 Drop-off:
 ${dropoff}
-
-Drop-off Navigation:
-${wazeDropoff}
-
-${googleDropoff}
 
 Date:
 ${date}
@@ -1137,7 +1102,7 @@ ${time}
 Instructions:
 ${instructions}
 
-Add Ride To Calendar:
+Add To Calendar:
 ${driverCalendarLink}
 
 Assigned Driver`;
