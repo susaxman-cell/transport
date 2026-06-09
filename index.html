@@ -736,6 +736,11 @@ function callCustomer() {
       "phone"
     ).value;
 
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A";
+
   if (!phone) {
 
     alert(
@@ -759,6 +764,11 @@ function safeParts() {
       "name"
     ).value || "ride";
 
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A";
+
   const date =
     document.getElementById(
       "date"
@@ -770,15 +780,11 @@ function safeParts() {
     ).value || "no-time";
 
   return {
-
-    name:
-      name.replace(/\s+/g, "_"),
-
-    date,
-
-    time:
-      time.replace(/:/g, "-")
-  };
+  name: name.replace(/\s+/g, "_"),
+  flight: flight.replace(/\s+/g, "_"),
+  date,
+  time: time.replace(/:/g, "-")
+};
 }
 
 // ======================
@@ -858,7 +864,13 @@ function addGoogle() {
       "name"
     ).value;
 
-  const phone =
+   
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A"; 
+
+ const phone =
     document.getElementById(
       "phone"
     ).value;
@@ -888,6 +900,8 @@ function addGoogle() {
 
 Phone: ${phone}
 
+Flight: ${flight} | Date: ${date} | Time: ${time}
+
 Pickup:
 ${pickup}
 
@@ -895,7 +909,7 @@ Drop-off:
 ${dropoff}`;
 
   const url =
-`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${format(date,time)}/${plusHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
+`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name + " - Flight " + (flight || "N/A"))}&dates=${format(date,time)}/${plusHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
 
   window.open(
     url,
@@ -917,6 +931,11 @@ function downloadICS() {
     document.getElementById(
       "phone"
     ).value;
+
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A";  
 
   const pickup =
     document.getElementById(
@@ -953,8 +972,8 @@ UID:${Date.now()}@mikestransportservice.com
 DTSTAMP:${now}
 DTSTART:${format(date,time)}
 DTEND:${plusHour(date,time)}
-SUMMARY:Ride for ${name}
-DESCRIPTION:Phone: ${phone}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}
+SUMMARY:Ride for ${name} - Flight ${flight}
+DESCRIPTION:Phone: ${phone}\\nFlight: ${flight} | Date: ${date} | Time: ${time}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}
 LOCATION:${pickup}
 END:VEVENT
 END:VCALENDAR`;
@@ -980,7 +999,7 @@ END:VCALENDAR`;
     URL.createObjectURL(blob);
 
   link.download =
-`${p.name}-${p.date}-${p.time}.ics`;
+`${p.name}-${p.flight}-${p.date}-${p.time}.ics`;
 
   link.click();
 }
@@ -1070,7 +1089,7 @@ Driver:
 ${driverName}`;
 
   const driverCalendarLink =
-`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${format(date,time)}/${plusHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
+`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name + " - Flight " + (flight || "N/A"))}&dates=${format(date,time)}/${plusHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
 
   const message =
 `🚕 DRIVER ASSIGNMENT
@@ -1084,20 +1103,13 @@ ${name}
 Phone:
 ${phone}
 
-Flight:
-${flight}
+Flight: ${flight} | Date: ${date} | Time: ${time}
 
 Pickup:
 ${pickup}
 
 Drop-off:
 ${dropoff}
-
-Date:
-${date}
-
-Time:
-${time}
 
 Instructions:
 ${instructions}
@@ -1129,24 +1141,40 @@ function sendConfirmation() {
     ).value;
 
   const pickup =
-    document.getElementById(
-      "pickup"
-    ).value;
+  document.getElementById(
+    "pickup"
+  ).value;
+
+  
+  const date =
+  document.getElementById(
+    "date"
+  ).value;
+
+  const time =
+  document.getElementById(
+    "time"
+  ).value;
+
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A";
+
+  const airportInfo =
+  pickup.toUpperCase().includes("SAV")
+    ? `
+
+Flight: ${flight} | Date: ${date} | Time: ${time}
+`
+    : "";
 
   const dropoff =
     document.getElementById(
       "dropoff"
     ).value;
 
-  const date =
-    document.getElementById(
-      "date"
-    ).value;
-
-  const time =
-    document.getElementById(
-      "time"
-    ).value;
+  
 
   const customerComments =
     document.getElementById(
@@ -1171,20 +1199,21 @@ const driverPhone =
 
 Your ride is confirmed.
 
-Driver Contact:
-(${driverPhone.slice(0,3)}) ${driverPhone.slice(3,6)}-${driverPhone.slice(6)}
+Driver:
+${driverName}
+
+Driver Phone:
+${driverPhone.length === 10
+  ? `(${driverPhone.slice(0,3)}) ${driverPhone.slice(3,6)}-${driverPhone.slice(6)}`
+  : driverPhone}
+
+${airportInfo}
 
 Pickup:
 ${pickup}
 
 Drop-off:
 ${dropoff}
-
-Date:
-${date}
-
-Time:
-${time}
 
 Comments:
 ${customerComments}
