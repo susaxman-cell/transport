@@ -1153,22 +1153,26 @@ function sendConfirmation() {
       "customerComments"
     ).value || "None";
 
-  const driverName =
-    document.getElementById(
-      "driverPhone"
-    ).options[
-      document.getElementById(
-        "driverPhone"
-      ).selectedIndex
-    ].text || "Assigned Driver";
+  const driverSelect =
+  document.getElementById(
+    "driverPhone"
+  );
+
+const driverName =
+  driverSelect.options[
+    driverSelect.selectedIndex
+  ].text || "Assigned Driver";
+
+const driverPhone =
+  driverSelect.value || "Not Available";
 
   const message =
 `Hi ${name},
 
 Your ride is confirmed.
 
-Driver:
-${driverName}
+Driver Contact:
+(${driverPhone.slice(0,3)}) ${driverPhone.slice(3,6)}-${driverPhone.slice(6)}
 
 Pickup:
 ${pickup}
